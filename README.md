@@ -70,8 +70,9 @@ Si todo el JSON falla, la app usa un catálogo de respaldo.
 
 El proyecto ya incluye:
 
-- `public/_redirects` para SPA fallback
 - `public/_headers` con headers de seguridad base
+
+No uses `public/_redirects` con regla `/* /index.html 200` en Workers/Pages actuales: puede provocar error `100324` (bucle infinito). Esta landing no usa React Router; con anclas (`#servicios`) no necesita fallback SPA.
 
 Build command en Cloudflare Pages:
 
@@ -94,7 +95,7 @@ Checklist rápido:
    - `NODE_VERSION = 20`
 9. Deploy.
 10. Revisa que funcionen:
-   - Rutas SPA (`_redirects`)
+   - Home y secciones con anclas (`#servicios`)
    - Headers de seguridad (`_headers`)
    - Carga de `products.json`
   
