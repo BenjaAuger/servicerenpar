@@ -1,11 +1,20 @@
-# Landing page para servicios
+# ServiceRenPar — Landing page
 
 Proyecto React + Vite para mostrar servicios, productos y contacto por WhatsApp.
+
+Repositorio: [github.com/BenjaAuger/servicerenpar](https://github.com/BenjaAuger/servicerenpar)
+
+## Ramas
+
+| Rama | Uso |
+|------|-----|
+| `main` | Producción (deploy en Cloudflare Pages) |
+| `dev` | Desarrollo y pruebas |
 
 ## Requisitos
 
 - Node.js 20+
-- npm 10+ (o pnpm si prefieres)
+- npm 10+
 
 ## Ejecutar en local
 
@@ -14,7 +23,7 @@ npm install
 npm run dev
 ```
 
-Para probar la versión de producción:
+Producción local:
 
 ```bash
 npm run build
@@ -23,79 +32,55 @@ npm run preview
 
 ## Dónde editar contenido
 
-El contenido editable queda dividido en dos zonas:
+| Archivo | Qué editar |
+|---------|------------|
+| `src/app/config/siteContent.ts` | Empresa, WhatsApp, teléfono, email, dirección, mapa, horarios, imágenes de servicios |
+| `public/products.json` | Catálogo de productos en venta |
 
-- `src/app/config/siteContent.ts`
-- `public/products.json`
+Guía detallada: [INSTRUCCIONES_EDICION.md](./INSTRUCCIONES_EDICION.md)
 
-En `siteContent.ts` puedes cambiar:
+## Imágenes (Google Drive)
 
-- Nombre de negocio
-- WhatsApp, teléfono y correo
-- Dirección y mapa de Google
-- Horarios
-- Servicios
-
-En `public/products.json` puedes cambiar:
-
-- Catálogo de productos
-- Precios
-- Imágenes
-- Tipos de producto
-
-## Imágenes con Google Drive
-
-Puedes usar cualquiera de estos formatos en `image`:
+Puedes usar en `image`:
 
 - `https://drive.google.com/file/d/FILE_ID/view`
 - `https://drive.google.com/uc?export=view&id=FILE_ID`
 
-La app convierte automáticamente los enlaces compartidos de Drive al formato compatible para `<img>`.
+La app convierte automáticamente enlaces compartidos de Drive al formato compatible con `<img>`.
 
-## Validación automática de catálogo
+## Validación de `products.json`
 
-Al iniciar, la app carga `public/products.json` y valida:
+Al cargar la web se valida:
 
-- `id`: número
-- `name`: texto obligatorio
-- `model`: texto obligatorio
-- `price`: número mayor a 0
+- `id`, `name`, `model`, `price`, `type`, `image`
 - `type`: solo `Lavadora`, `Secadora`, `Lava Vajillas`
-- `image`: URL HTTP/HTTPS válida (incluye Google Drive)
+- `image`: URL HTTP/HTTPS válida
 
-Si algún producto está mal, se descarta automáticamente.
-Si todo el JSON falla, la app usa un catálogo de respaldo.
+Productos inválidos se omiten. Si falla todo el JSON, se usa catálogo de respaldo en `siteContent.ts`.
 
 ## Deploy en Cloudflare Pages
 
-El proyecto ya incluye:
+**Build command:** `npm run build`  
+**Output directory:** `dist`  
+**Variable:** `NODE_VERSION = 20`  
+**Rama recomendada:** `main`
 
-- `public/_headers` con headers de seguridad base
+Incluye `public/_headers` (seguridad base).
 
-No uses `public/_redirects` con regla `/* /index.html 200` en Workers/Pages actuales: puede provocar error `100324` (bucle infinito). Esta landing no usa React Router; con anclas (`#servicios`) no necesita fallback SPA.
+No uses `public/_redirects` con `/* /index.html 200`: provoca error `100324` (bucle infinito) en Workers/Pages. Esta landing usa anclas (`#servicios`), no rutas SPA.
 
-Build command en Cloudflare Pages:
+### Dominio en nic.cl
 
-- `npm run build`
+1. Agrega el dominio en Cloudflare.
+2. En [nic.cl](https://www.nic.cl), cambia los **nameservers** a los de Cloudflare.
+3. En Pages → **Custom domains**, asocia tu dominio.
+4. SSL se activa automáticamente.
 
-Output directory:
+No se requiere ninguna API en el código solo por usar dominio propio.
 
-- `dist`
+## Releases
 
-Checklist rápido:
-
-1. Verifica local: `npm run build`.
-2. Sube repo a GitHub.
-3. En Cloudflare Pages: **Create a project**.
-4. Conecta repo y branch principal.
-5. Framework: **Vite**.
-6. Build command: `npm run build`.
-7. Output directory: `dist`.
-8. Node version env var:
-   - `NODE_VERSION = 20`
-9. Deploy.
-10. Revisa que funcionen:
-   - Home y secciones con anclas (`#servicios`)
-   - Headers de seguridad (`_headers`)
-   - Carga de `products.json`
-  
+| Tag | Descripción |
+|-----|-------------|
+| `v0.0.1` | Release inicial |
+| `v0.0.2` | Fix deploy Cloudflare, datos de contacto y README actualizado |
