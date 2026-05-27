@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "name": "Lavadora Samsung 18kg",
+    "model": "WA18R6780CV",
+    "price": 599000,
+    "type": "Lavadora",
+    "image": "https://drive.google.com/file/d/1Oq_k1WfahNRjeMaAWCqSQK7QMdAviKMB/view"
+  },
+  {
+    "id": 2,
+    "name": "Secadora LG 9kg",
+    "model": "DLE3470W",
+    "price": 549000,
+    "type": "Secadora",
+    "image": "https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?auto=format&fit=crop&w=1200&q=80"
+  },
+  {
+    "id": 3,
+    "name": "Lava Vajillas Bosch 12 Servicios",
+    "model": "SMS46MI08E",
+    "price": 699000,
+    "type": "Lava Vajillas",
+    "image": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1200&q=80"
+  },
+  {
+    "id": 4,
+    "name": "Lavadora Whirlpool 15kg",
+    "model": "WTW5000DW",
+    "price": 499000,
+    "type": "Lavadora",
+    "image": "https://images.unsplash.com/photo-1621847468516-bf0f87bdf58f?auto=format&fit=crop&w=1200&q=80"
+  }
+]
