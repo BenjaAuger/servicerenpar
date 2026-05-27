@@ -37,9 +37,9 @@ export interface MainService {
  */
 export const SITE_CONTENT = {
   businessName: "ServiceRenPar",
-  whatsappNumber: "56912345678",
-  phone: "+56 9 1234 5678",
-  email: "info@servicerenpar.com",
+  whatsappNumber: "56986828614",
+  phone: "+56 9 8682 8614",
+  email: "Renaug67@gmail.com",
   address: "Jorge Guerra Squella 9161, Lo Espejo, Región Metropolitana",
   heroImage:
     "https://images.unsplash.com/photo-1775210727386-4c798dfae209?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080",
