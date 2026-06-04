@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from "react";
+import { getImageCandidates } from "../utils/imageUrl";
 
 interface ImageWithFallbackProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   src: string;
@@ -6,11 +7,20 @@ interface ImageWithFallbackProps extends React.ImgHTMLAttributes<HTMLImageElemen
 }
 
 export function ImageWithFallback({ src, alt, className, onError, ...props }: ImageWithFallbackProps) {
-  const [error, setError] = useState(false);
+  const candidates = useMemo(() => getImageCandidates(src), [src]);
+  const [candidateIndex, setCandidateIndex] = useState(0);
+  const [failed, setFailed] = useState(false);
 
-  if (error) {
+  useEffect(() => {
+    setCandidateIndex(0);
+    setFailed(false);
+  }, [src]);
+
+  const currentSrc = candidates[candidateIndex] ?? "";
+
+  if (failed || !currentSrc) {
     return (
-      <div className={`bg-gray-200 flex items-center justify-center ${className}`}>
+      <div className={`flex items-center justify-center bg-gray-200 ${className ?? ""}`}>
         <span className="text-gray-400">{alt}</span>
       </div>
     );
@@ -18,14 +28,20 @@ export function ImageWithFallback({ src, alt, className, onError, ...props }: Im
 
   return (
     <img
-      src={src}
+      src={currentSrc}
       alt={alt}
       className={className}
-      loading={props.loading ?? 'lazy'}
-      decoding={props.decoding ?? 'async'}
-      referrerPolicy={props.referrerPolicy ?? 'strict-origin-when-cross-origin'}
+      loading={props.loading ?? "lazy"}
+      decoding={props.decoding ?? "async"}
+      referrerPolicy={props.referrerPolicy ?? "no-referrer"}
       onError={(event) => {
-        setError(true);
+        const hasNextCandidate = candidateIndex < candidates.length - 1;
+        if (hasNextCandidate) {
+          setCandidateIndex((prev) => prev + 1);
+          return;
+        }
+
+        setFailed(true);
         onError?.(event);
       }}
       {...props}

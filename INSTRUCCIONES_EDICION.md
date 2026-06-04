@@ -20,8 +20,21 @@ Dentro de `SITE_CONTENT`:
 - `phone`: teléfono visible en la web
 - `email`: correo visible
 - `address`: dirección visible
-- `heroImage`: imagen principal
+- `heroImages`: carrusel de imágenes del hero (cambia cada 30 s)
+- `heroCarouselIntervalMs`: milisegundos entre cambios (30000 = 30 s)
+- Por cada slide en `heroImages` puedes ajustar:
+  - `objectPosition`: encuadre (`"center"`, `"top"`, `"center top"`, `"50% 30%"`)
+  - `objectFit`: `"cover"` (llena, puede recortar) o `"contain"` (foto completa)
 - `mapEmbedUrl`: iframe URL de Google Maps
+
+### SEO (Google Search Console)
+
+Edita `seo.config.json` en la raíz del proyecto:
+
+- `siteUrl`: URL pública del sitio (sin barra final). Ejemplo: `https://tudominio.cl`
+- `siteName`: nombre para logs internos al generar archivos
+
+Tras cambiar `siteUrl`, ejecuta `npm run generate:seo` o simplemente `npm run build`. Se actualizan `public/robots.txt` y `public/sitemap.xml`.
 
 Dentro de `BUSINESS_HOURS`:
 
@@ -34,6 +47,11 @@ Dentro de `public/products.json`:
 - La app valida automáticamente cada registro.
 
 Dentro de `SERVICE_OPTIONS`:
+
+- Por cada tipo (Lavadora, Secadora, Lava Vajillas) puedes ajustar:
+  - `imageVariant`: `"landscape"` (franja horizontal) o `"portrait"` (recuadro vertical, fotos de celular)
+  - `objectPosition`: encuadre (`"center"`, `"center 40%"`, etc.)
+  - `objectFit`: `"cover"` (recomendado) o `"contain"` (foto completa, puede dejar bandas vacías)
 
 - Tipos e imágenes para reparación/mantenimiento
 

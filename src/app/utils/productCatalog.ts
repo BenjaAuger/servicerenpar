@@ -60,6 +60,12 @@ export function normalizeProductsCatalog(rawCatalog: unknown): Product[] {
     });
   }
 
-  return normalizedProducts;
+  const seenIds = new Set<number>();
+
+  return normalizedProducts.filter((product) => {
+    if (seenIds.has(product.id)) return false;
+    seenIds.add(product.id);
+    return true;
+  });
 }
 

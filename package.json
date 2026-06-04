@@ -1,9 +1,12 @@
 {
   "name": "@figma/my-make-file",
   "private": true,
-  "version": "0.0.2",
+  "version": "0.0.3",
   "type": "module",
   "scripts": {
+    "generate:seo": "node scripts/generate-seo-files.mjs",
+    "prebuild": "npm run generate:seo",
+    "predev": "npm run generate:seo",
     "build": "vite build",
     "dev": "vite",
     "preview": "npm run build && wrangler dev",

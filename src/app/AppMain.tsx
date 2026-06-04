@@ -1,5 +1,6 @@
 import { Clock, Mail, MapPin, Phone, X } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type CSSProperties } from "react";
+import { HeroCarousel } from "./components/HeroCarousel";
 import { ImageWithFallback } from "./components/ImageWithFallback";
 import {
   BUSINESS_HOURS,
@@ -10,10 +11,28 @@ import {
   type ApplianceType,
   type ModalType,
   type Product,
+  type ServiceOption,
 } from "./config/siteContent";
 import { resolveImageUrl } from "./utils/imageUrl";
 import { normalizeProductsCatalog } from "./utils/productCatalog";
 import { buildWhatsappUrl, normalizeWhatsappNumber, openExternalLink } from "./utils/whatsapp";
+
+function getServiceOptionImageStyle(option: ServiceOption): CSSProperties {
+  return {
+    objectFit: option.objectFit ?? "cover",
+    objectPosition: option.objectPosition ?? "center",
+  };
+}
+
+function getServiceImageContainerClass(option: ServiceOption): string {
+  const base = "w-full overflow-hidden bg-[#1e3a5f]/5";
+
+  if (option.imageVariant === "portrait") {
+    return `${base} aspect-[3/4]`;
+  }
+
+  return `${base} h-48`;
+}
 
 const currencyFormatter = new Intl.NumberFormat("es-CL", {
   style: "currency",
@@ -107,7 +126,11 @@ export default function AppMain() {
             </div>
           </div>
           <div className="overflow-hidden rounded-2xl shadow-2xl">
-            <ImageWithFallback src={resolveImageUrl(SITE_CONTENT.heroImage)} alt="Lavadoras modernas" className="h-[320px] w-full object-cover sm:h-[400px] lg:h-[500px]" loading="eager" />
+            <HeroCarousel
+              slides={SITE_CONTENT.heroImages}
+              intervalMs={SITE_CONTENT.heroCarouselIntervalMs}
+              className="h-[320px] w-full sm:h-[400px] lg:h-[500px]"
+            />
           </div>
         </div>
       </section>
@@ -193,7 +216,14 @@ export default function AppMain() {
                 <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                   {SERVICE_OPTIONS.map((option) => (
                     <div key={option.id} className="group overflow-hidden rounded-2xl border-2 border-gray-200 bg-white">
-                      <ImageWithFallback src={resolveImageUrl(option.image)} alt={option.type} className="h-48 w-full object-cover" />
+                      <div className={getServiceImageContainerClass(option)}>
+                        <ImageWithFallback
+                          src={resolveImageUrl(option.image)}
+                          alt={option.type}
+                          className="h-full w-full"
+                          style={getServiceOptionImageStyle(option)}
+                        />
+                      </div>
                       <div className="p-6">
                         <h3 className="mb-4 text-center text-xl font-bold text-[#1e3a5f]">{option.type}</h3>
                         <button type="button" onClick={() => handleServiceRequest(activeModal, option.type)} className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] px-6 py-3 font-semibold text-white">
